@@ -1,3 +1,22 @@
 <% provide(:title, '注册') %>
 <h2>注册新用户</h2>
+<div >
+    <%= form_for(@user) do |f|%>
+        <%= render 'shared/error'%>
 
+        <%= f.label :name %>
+        <%= f.text_field :name%>
+
+        <%= f.label :email%>
+        <%= f.text_field :email %>
+
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+
+        <%= f.label :password_confirmation, "Confirmat" %>
+        <%= f.password_field :password_confirmation %>
+
+        <p>
+        <%= f.submit "注册" ,class:"btn"%>
+    <% end %>
+</div>

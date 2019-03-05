@@ -29,10 +29,11 @@ footer{
     ul{
         float: right;
         list-style: none;
-    }
-    li{
+
+        li{
         float: left;
         margin-left: 10px;
+        }
     }
 }
 
@@ -48,4 +49,17 @@ footer{
         color: #fff;
         text-decoration: none;
     }
+}
+
+input {
+    border: 1px solid #bbb;
+    width: 30%;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.error{
+    color: red;
+    list-style: none;
+    margin: 10px 0;
 }
