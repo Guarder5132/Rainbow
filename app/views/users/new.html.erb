@@ -4,19 +4,18 @@
     <%= form_for(@user) do |f|%>
         <%= render 'shared/error'%>
 
-        <%= f.label :name %>
+        <%= f.label :name, "用户名" %>
         <%= f.text_field :name%>
 
-        <%= f.label :email%>
+        <%= f.label :email, "邮箱" %>
         <%= f.text_field :email %>
 
-        <%= f.label :password %>
+        <%= f.label :password, "密码" %>
         <%= f.password_field :password %>
 
-        <%= f.label :password_confirmation, "Confirmat" %>
+        <%= f.label :password_confirmation, "确认密码" %>
         <%= f.password_field :password_confirmation %>
 
-        <p>
-        <%= f.submit "注册" ,class:"btn"%>
+        <p><%= f.submit "注册" ,class:"btn"%>
     <% end %>
 </div>

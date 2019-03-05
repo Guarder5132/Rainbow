@@ -5,7 +5,12 @@
         <ul class="nav pull-right">
             <li><%= link_to "主页", root_path %></li>
             <li><%= link_to "帮助", help_path %></li>
-            <li><%= link_to "登录", '#'%></li>
+            <% if signed_in? %>
+                <li><%= link_to "个人信息", user_path(current_user) %></li>
+                <li><%= link_to "登出", signout_path, method: "delete" %></li>
+            <% else %>
+                <li><%= link_to "登录", signin_path %></li>
+            <% end %>
         </ul>
     </nav>
 </div>
