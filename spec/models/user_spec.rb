@@ -4,13 +4,14 @@ describe User do
   
   before { @user = User.new(name:"Rainbow", email:"rain@example.com", password:"foobar", password_confirmation:"foobar") }
 
-  subject { @user }
+  subject { @user } 
 
   it { should respond_to(:name) }
   it { should respond_to(:email) }
   it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
+  it { should respond_to(:authenticate) }
 
   it { should be_valid }
 
@@ -84,6 +85,21 @@ describe User do
     describe "密码不小于6位" do
       before { @user.password=@user.password_confirmation="a"*5 }
       it { should_not be_valid }
+    end
+
+    describe "authenticate" do
+      before { @user.save }
+      let(:other_user) { User.find_by(email: @user.email) }
+
+      describe "信息有效时" do
+        it { should eq other_user.authenticate(@user.password) }
+      end
+
+      describe "信息无效时" do
+        let(:invalid_password_user) { other_user.authenticate("invalid") }
+        it { should_not eq invalid_password_user }
+        specify { expect(invalid_password_user).to be_false }
+      end
     end
   end
 
