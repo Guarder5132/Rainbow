@@ -18,6 +18,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
+      sign_in @user
+      redirect_to @user
+      flash[:success] = "更改成功"
+    else
+      render 'edit'
+    end
+  end
+
   private
 
     def user_params 

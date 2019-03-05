@@ -6,6 +6,7 @@
             <li><%= link_to "主页", root_path %></li>
             <li><%= link_to "帮助", help_path %></li>
             <% if signed_in? %>
+                <li><%= link_to "更改信息", edit_user_path(current_user) %>
                 <li><%= link_to "个人信息", user_path(current_user) %></li>
                 <li><%= link_to "登出", signout_path, method: "delete" %></li>
             <% else %>

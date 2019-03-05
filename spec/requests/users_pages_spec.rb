@@ -85,6 +85,7 @@ describe "UsersPages" do
       it { should have_selector("div.alert.alert-success",text:"登录成功") }
       it { should have_link('个人信息', href: user_path(user)) }
       it { should have_link('登出', href: signout_path) }
+      it { should have_link('更改信息', href: edit_user_path(user)) }
       it { should_not have_link('登录', href: signin_path) }
       
       describe "退出" do
@@ -97,4 +98,40 @@ describe "UsersPages" do
 
   end
 
+  describe "edit page" do
+    before { visit edit_user_path(user) }
+    it { should have_title('更改信息') }
+    it { should have_content('更改信息') }
+  end
+
+  describe "edit" do
+    before { visit edit_user_path(user) }
+    let(:submit) { "确认更改" }
+
+    describe "信息无效时" do
+      before { click_button submit }
+      it { should have_content('error') }
+      it { should have_title('更改信息') }
+    end
+
+    describe "信息有效时" do
+      let(:new_name) { "Guarder" }
+      let(:new_email) { "guard@example.com" }
+      
+      before do
+        fill_in "用户名", with: new_name
+        fill_in "邮箱", with: new_email
+        fill_in "密码", with: user.password
+        fill_in "确认密码", with: user.password
+        click_button submit
+      end
+      
+      it { should have_title(new_name) }
+      it { should have_selector('div.alert.alert-success',text: "更改成功") }
+      it { should have_link('登出', href:signout_path) }
+      specify { expect(user.reload.name).to eq new_name }
+      specify { expect(user.reload.email).to eq new_email }
+    end
+
+  end
 end

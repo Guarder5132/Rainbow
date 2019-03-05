@@ -1,0 +1,21 @@
+<% provide(:title,'更改信息') %>
+<h1>更改信息</h1>
+<div>
+    <%= form_for(@user) do |f| %>
+        <%= render 'shared/error' %>
+
+        <%= f.label :name, "用户名" %>
+        <%= f.text_field :name %>
+
+        <%= f.label :email, "邮箱" %>
+        <%= f.text_field :email %>
+
+        <%= f.label :password, "密码" %>
+        <%= f.password_field :password %>
+
+        <%= f.label :password_confirmation, "确认密码" %>
+        <%= f.password_field :password_confirmation %>
+
+        <p><%= f.submit "确认更改", class: "btn"%>
+    <% end %>
+</div>
