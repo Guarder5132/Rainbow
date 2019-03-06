@@ -15,6 +15,11 @@ describe "AuthenticationPages" do
             before { patch user_path(user) }
             specify{ expect(response).to redirect_to(signin_path) }
         end
+        
+        describe "访问所有用户列表" do
+            before { visit users_path }
+            it { should have_title(full_title('登录')) }
+        end
     end
 
     describe "已登录用户" do
@@ -28,6 +33,15 @@ describe "AuthenticationPages" do
         describe "向别的用户提交更新操作" do
             before { patch user_path(other_user) }
             specify{ expect(response).to redirect_to(root_path) }
+        end
+    end
+
+    describe "非管理员用户" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before { sign_in user, no_capybara:true }
+        describe "向用户提交删除操作" do
+            before { delete user_path(other_user) }
+            specify { expect(response).to redirect_to(root_path) }
         end
     end
 end

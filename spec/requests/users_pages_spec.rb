@@ -157,5 +157,20 @@ describe "UsersPages" do
 
     it { should have_title(full_title('所有用户')) }
     it { should have_content('所有用户') }
+    it { should_not have_link('删除') }
+    describe "显示删除链接" do
+      let(:admin) { FactoryGirl.create(:admin) }
+      before do
+        sign_in admin 
+        visit users_path
+      end
+      it { should have_link('删除',href: user_path(User.first)) }
+
+      it "应该删除成功" do
+        expect { click_link "删除", match: :first }.to change(User, :count).by(-1)
+      end 
+
+      it { should_not have_link("删除", href: user_path(admin)) }
+    end
   end
 end
