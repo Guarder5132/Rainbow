@@ -86,6 +86,7 @@ describe "UsersPages" do
       it { should have_link('个人信息', href: user_path(user)) }
       it { should have_link('登出', href: signout_path) }
       it { should have_link('更改信息', href: edit_user_path(user)) }
+      it { should have_link('所有用户', href: users_path) }
       it { should_not have_link('登录', href: signin_path) }
       
       describe "退出" do
@@ -99,13 +100,19 @@ describe "UsersPages" do
   end
 
   describe "edit page" do
-    before { visit edit_user_path(user) }
+    before do 
+      sign_in user
+      visit edit_user_path(user)
+    end
     it { should have_title('更改信息') }
     it { should have_content('更改信息') }
   end
 
   describe "edit" do
-    before { visit edit_user_path(user) }
+    before do 
+      sign_in user
+      visit edit_user_path(user)
+    end
     let(:submit) { "确认更改" }
 
     describe "信息无效时" do
@@ -133,5 +140,22 @@ describe "UsersPages" do
       specify { expect(user.reload.email).to eq new_email }
     end
 
+  end
+
+  describe "index page" do
+    !let(:other_user) { FactoryGirl.create(:user) }
+    before do
+      sign_in user
+      visit users_path
+    end
+
+    it "应该显示所有用户/分页" do
+      User.paginate(page: 1).each do |user|
+        expect(page).to have_link(user.name)
+      end
+    end
+
+    it { should have_title(full_title('所有用户')) }
+    it { should have_content('所有用户') }
   end
 end

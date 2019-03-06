@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :signed_in_user, only:[:update,:edit]
+  before_action :correct_user,   only:[:update,:edit]
+
   def new
     @user = User.new
   end
@@ -19,11 +22,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
     if @user.update_attributes(user_params)
       sign_in @user
       redirect_to @user
@@ -33,9 +34,26 @@ class UsersController < ApplicationController
     end
   end
 
+  def index
+    @users = User.paginate(page: params[:page])
+  end
+
   private
 
     def user_params 
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def signed_in_user 
+      unless signed_in?
+        redirect_to signin_path, notice: "请登录!"
+      end
+    end
+
+    def correct_user
+      @user = User.find(params[:id])
+      unless current_user?(@user)
+        redirect_to root_path ,notice: "无法向其他用户有想法!"
+      end
     end
 end
