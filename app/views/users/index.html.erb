@@ -1,10 +1,10 @@
 <% provide(:title, '所有用户') %>
 <div>
 <h1>所有用户</h1>
-    <% will_paginate %>
+    <%= will_paginate %>
     <% @users.each do |user| %>
         <li><%= gravatar_for user ,size:40%></li>
         <li><%= link_to user.name, user %></li><p>
     <% end %>
-    <% will_paginate %>
+    <%= will_paginate %>
 </div>
