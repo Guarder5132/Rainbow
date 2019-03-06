@@ -14,8 +14,26 @@ describe User do
   it { should respond_to(:authenticate) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }
+  it { should respond_to(:microposts) }
   it { should be_valid }
   it { should_not be_admin }
+
+  describe "microposts" do
+    before do
+      @user.save
+      FactoryGirl.create(:micropost, user: @user, content:"南下")
+      FactoryGirl.create(:micropost, user: @user, content:"北上")
+    end
+
+    it "删除用户后，微博也跟着删除" do
+      microposts = @user.microposts.to_a
+      @user.destroy
+      expect(microposts).not_to be_empty
+      microposts.each do |micropost|
+        expect(Micropost.where(id: micropost.id)).to be_empty
+      end
+    end
+  end
 
   describe "name" do
     describe "当名字为空时" do

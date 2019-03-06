@@ -9,4 +9,8 @@ FactoryGirl.define do
             admin true
         end
     end
+    factory :micropost do
+        user
+        content "南溪没有卡仕达"
+    end
 end
