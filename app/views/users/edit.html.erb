@@ -2,7 +2,7 @@
 <h1>更改信息</h1>
 <div>
     <%= form_for(@user) do |f| %>
-        <%= render 'shared/error' %>
+        <%= render 'shared/error', object:f.object %>
 
         <%= f.label :name, "用户名" %>
         <%= f.text_field :name %>
@@ -18,4 +18,4 @@
 
         <p><%= f.submit "确认更改", class: "btn"%>
     <% end %>
-</div>
+</div> 

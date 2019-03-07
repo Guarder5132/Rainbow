@@ -8,8 +8,9 @@
             <% if signed_in? %>
                 <li><%= link_to "所有用户", users_path %></li>
                 <li><%= link_to "更改信息", edit_user_path(current_user) %>
-                <li><%= link_to "个人信息", user_path(current_user) %></li>
                 <li><%= link_to "登出", signout_path, method: "delete" %></li>
+                <li><%= link_to current_user.name, user_path(current_user)%>
+                <li><%= gravatar_for current_user,size: 40 %></li>
             <% else %>
                 <li><%= link_to "登录", signin_path %></li>
             <% end %>

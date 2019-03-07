@@ -9,6 +9,22 @@ describe "StaticPages" do
     it { should have_title(full_title('')) }
     it { should have_content('欢迎来到彩虹世界') }
     it { should_not have_title('| Home') }
+
+    describe "显示微博" do
+      let(:user) { FactoryGirl.create(:user) }
+      before do
+        FactoryGirl.create(:micropost, user:user, content:"rain")
+        FactoryGirl.create(:micropost, user:user, content:"bow" )
+        sign_in user
+        visit root_path
+      end
+
+      it "应该显示所有微博" do
+        user.feed.each do |fed|
+          expect(page).to have_content(fed.content)
+        end
+      end
+    end
   end
 
   describe "Help page" do

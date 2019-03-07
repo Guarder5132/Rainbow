@@ -2,7 +2,7 @@
 <h2>注册新用户</h2>
 <div >
     <%= form_for(@user) do |f|%>
-        <%= render 'shared/error'%>
+        <%= render 'shared/error',object:f.object %>
 
         <%= f.label :name, "用户名" %>
         <%= f.text_field :name%>

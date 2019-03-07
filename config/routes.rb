@@ -1,4 +1,5 @@
 Rainbow::Application.routes.draw do
+  resources :microposts, only:[:destroy, :create]
   resources :sessions ,only: [:destroy, :new, :create]
   resources :users
   

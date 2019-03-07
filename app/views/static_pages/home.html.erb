@@ -1,6 +1,34 @@
-<div class="center hero-unit">
-    <h1>Rainbow</h1>
-    <h2>欢迎来到彩虹世界,如果是新用户,请先注册</h2>
+<% if signed_in? %>
+    <div>
+        <%= form_for(@micropost) do |f|%>
+            <%= render 'shared/error', object: f.object %>
+            <%= f.text_area :content,placeholder:"输入要创建的内容" %>
+            <%= f.submit "创建微博", class:"btn" %>
+        <% end %>
+    </div>
+    <div>
+        <h3>小圈子</h3>
+        <% if @feed_items.any? %>
+            <% @feed_items.each do |item| %>
+            <li>
+                <%= gravatar_for item.user,size:20%> 
+                <%=link_to item.user.name, user_path(item.user) %><p>
+                <p>内容：<%= item.content %>
+            </li>
+            <li>
+                创建于：<%= item.created_at%>
+                <%= link_to "删除", item, method: :delete , title: item.content %>
+            </li>
+            <p>
+            <% end %>
+            <%= will_paginate @feed_items %>
+        <% end %>
+    </div>
+<% else %>
+    <div class="center hero-unit">
+        <h1>Rainbow</h1>
+        <h2>欢迎来到彩虹世界,如果是新用户,请先注册</h2>
 
-    <%= link_to "注册新用户", signup_path ,class:"btn btn-large btn-primary"%>
-</div>
+        <%= link_to "注册新用户", signup_path ,class:"btn btn-large btn-primary"%>
+    </div>
+<% end %>

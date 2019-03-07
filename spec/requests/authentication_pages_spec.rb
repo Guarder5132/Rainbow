@@ -20,6 +20,16 @@ describe "AuthenticationPages" do
             before { visit users_path }
             it { should have_title(full_title('登录')) }
         end
+
+        describe "创建微博操作" do
+            before { post microposts_path }
+            specify { expect(response).to redirect_to(signin_path) }
+        end
+
+        describe "删除微博操作" do
+            before { delete micropost_path(user) }
+            specify{ expect(response).to redirect_to(signin_path) }
+        end
     end
 
     describe "已登录用户" do

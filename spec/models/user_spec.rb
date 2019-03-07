@@ -15,6 +15,7 @@ describe User do
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }
   it { should respond_to(:microposts) }
+  it { should respond_to(:feed) }
   it { should be_valid }
   it { should_not be_admin }
 
@@ -32,6 +33,24 @@ describe User do
       microposts.each do |micropost|
         expect(Micropost.where(id: micropost.id)).to be_empty
       end
+    end
+
+  end
+
+  describe "微博排序" do
+    before { @user.save }
+    let!(:new_micropost) { FactoryGirl.create(:micropost,user: @user,created_at:1.hour.ago) }
+    let!(:old_micropost) { FactoryGirl.create(:micropost,user: @user,created_at:1.day.ago) }
+    it "排序应该由新到旧" do
+      expect(@user.microposts.to_a).to eq [new_micropost,old_micropost]
+    end
+
+    describe "feed" do
+      let(:other_user_microposts) { FactoryGirl.create(:micropost, user:FactoryGirl.create(:user)) }
+
+      its(:feed) { should include(new_micropost) }
+      its(:feed) { should include(old_micropost) }
+      its(:feed) { should_not include(other_user_microposts) }
     end
   end
 

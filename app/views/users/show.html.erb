@@ -5,3 +5,19 @@
         <%= @user.name%>
     </h1>
 </div>
+<p>
+<div>
+    <h4>微博(<%= @microposts.count %>)</h4>
+    <% if @microposts.any? %>
+        <% @microposts.each do |micropost| %>
+            <li>
+                内容：<%= micropost.content %>
+            </li>
+            <li>
+                创建于：<%= micropost.created_at%>
+                <%= link_to "删除", micropost, method: :delete, title: micropost.content%>
+            </li><p>
+        <% end %>
+        <%= will_paginate @microposts %>
+    <% end %>
+</div>
