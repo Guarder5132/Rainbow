@@ -25,6 +25,36 @@ describe "StaticPages" do
         end
       end
     end
+
+    describe "显示关注/被关注数量" do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:other_user) { FactoryGirl.create(:user) }
+      before do
+        sign_in user
+        user.follow!(other_user)
+        visit root_path
+      end
+
+      it { should have_link("1 关注") }
+      it { should have_link("0 粉丝") }
+
+      describe "关注列表" do
+        before { visit following_user_path(user) }
+        it { should have_title(full_title('关注列表')) }
+        it { should have_content('关注列表') }
+        it { should have_link(other_user.name) }
+      end
+      
+      describe "粉丝列表" do
+        before do
+          sign_in other_user
+          visit followers_user_path(other_user) 
+        end
+        it { should have_title(full_title('粉丝列表')) }
+        it { should have_content('粉丝列表') }
+        it { should have_link(user.name) }
+      end
+    end
   end
 
   describe "Help page" do

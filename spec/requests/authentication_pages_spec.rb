@@ -30,6 +30,16 @@ describe "AuthenticationPages" do
             before { delete micropost_path(user) }
             specify{ expect(response).to redirect_to(signin_path) }
         end
+
+        describe "访问关注列表" do
+            before { visit following_user_path(user) }
+            it { should have_title(full_title('登录')) }
+        end
+
+        describe "访问粉丝列表" do
+            before { visit followers_user_path(user) }
+            it { should have_title(full_title('登录')) }
+        end
     end
 
     describe "已登录用户" do

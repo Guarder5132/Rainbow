@@ -3,6 +3,7 @@
     <h1 class="gravatar">
         <%= gravatar_for @user %>
         <%= @user.name%>
+        <%= render 'follow_button' if signed_in? %>
     </h1>
 </div>
 <p>

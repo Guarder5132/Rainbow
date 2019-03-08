@@ -27,3 +27,13 @@ FactoryGirl.define do
   end
 end
 
+#下拉按钮
+<li id="fat-menu" class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    更多 <b class="caret"></b>
+  </a>
+  <ul class="dropdown-menu">
+  <li> ....   </li>
+  <li class="divider"></li>
+  </ul>
+</li>

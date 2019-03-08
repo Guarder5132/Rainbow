@@ -1,0 +1,22 @@
+<% provide(:title, @title) %>
+<h1><%= @title %></h1>
+<div>
+    <% @users.each do |user| %>
+        <a href="<%= user_path(user)%>"><%= gravatar_for user,size:35 %></a>
+    <% end %>
+</div>
+
+<div>
+<p>
+    <% @users.each do |user| %>
+        <li>
+        ID：
+            <%= gravatar_for user,size:20%> 
+            <%=link_to user.name, user_path(user) %>
+        </li>
+        <li>
+        Email：<%= user.email %>
+        </li><p>
+    <% end %>
+    <%= will_paginate @users %>
+</div>

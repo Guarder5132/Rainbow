@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :signed_in_user, only:[:update,:edit,:index, :destroy]
+  before_action :signed_in_user, only:[:update,:edit,:index, :destroy,:followers,:following]
   before_action :correct_user,   only:[:update,:edit]
   before_action :admin_user,     only: :destroy
 
@@ -46,6 +46,20 @@ class UsersController < ApplicationController
     redirect_to users_path 
   end
 
+  def following
+    @title = "关注列表"
+    @user = User.find(params[:id])
+    @users = @user.followed_users.paginate(page: params[:page])
+    render 'follow_list'
+  end
+
+  def followers
+    @title = "粉丝列表"
+    @user = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'follow_list'
+  end
+
   private
 
     def user_params 
@@ -55,7 +69,7 @@ class UsersController < ApplicationController
     def correct_user
       @user = User.find(params[:id])
       unless current_user?(@user)
-        redirect_to root_path ,notice: "无法向其他用户有想法!"
+        redirect_to root_path ,notice:  "无法向其他用户有想法!"
       end
     end
 

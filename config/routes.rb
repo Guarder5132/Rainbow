@@ -1,7 +1,12 @@
 Rainbow::Application.routes.draw do
   resources :microposts, only:[:destroy, :create]
   resources :sessions ,only: [:destroy, :new, :create]
-  resources :users
+  resources :relationships, only: [:destroy, :create]
+  resources :users do
+    member do
+      get :followers, :following
+    end
+  end
   
   root to: 'static_pages#home',       via:'get'
   match '/help',    to: 'static_pages#help',        via:'get'

@@ -90,7 +90,7 @@ describe "UsersPages" do
 
       it { should have_title(user.name) }
       it { should have_selector("div.alert.alert-success",text:"登录成功") }
-      it { should have_link(user.name, href: user_path(user)) }
+      it { should have_link('个人信息', href: user_path(user)) }
       it { should have_link('登出', href: signout_path) }
       it { should have_link('更改信息', href: edit_user_path(user)) }
       it { should have_link('所有用户', href: users_path) }
