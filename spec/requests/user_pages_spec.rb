@@ -22,6 +22,49 @@ describe "UsersPages" do
     it { should have_content(m1.content) }
     it { should have_content(m2.content) }
     it { should have_content(user.microposts.count) }
+
+    describe "点击关注" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before do
+            sign_in user
+            visit user_path(other_user) 
+        end
+
+        it "关注者的关注数量加1" do
+            expect{ click_button "关注" }.to change(user.followed_users, :count).by(1)
+        end
+
+        it "被关注者的粉丝数量加1" do
+            expect{ click_button "关注" }.to change(other_user.followers, :count).by(1)
+        end
+
+        describe "按钮变换" do
+            before { click_button "关注" }
+            it { should have_button("取关") }
+        end
+    end
+
+    describe "点击取关" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before do
+            sign_in user
+            user.follow!(other_user)
+            visit user_path(other_user)
+        end
+
+        it "关注者的关注数量减1" do
+            expect { click_button "取关" }.to change(user.followed_users, :count).by(-1)
+        end
+
+        it "被关注者的粉丝数量减1" do
+            expect { click_button "取关" }.to change(other_user.followers, :count).by(-1)
+        end
+
+        describe "变换按钮" do
+            before { click_button "取关" }
+            it { should have_button('关注') }
+        end
+    end
   end
 
   describe "signup" do
