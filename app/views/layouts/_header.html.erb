@@ -6,7 +6,7 @@
             <li><%= link_to "主页", root_path %></li>
             <% if signed_in? %>
             <%= render 'shared/follow_number' %>
-                <li id="fat-menu" class="dropdown">
+                <li id="fat-menu" class="dropdown"> 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <%= current_user.name %> <b class="caret"></b>
                     </a>
